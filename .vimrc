@@ -73,8 +73,10 @@ set aw
 set cin
 filetype on
 set fdm=marker
+" set fdm=syntax
+set nofoldenable
 
-":verbose map <TAB>
+" :verbose map <TAB>
 
 set showmatch
 set ruler
@@ -85,7 +87,6 @@ set tags=~/path/tags
 set tags=tags
 set autochdir
 
-" luanma wenti
 set fileencoding=utf-8
 "set termencoding=utf-8
 "set encoding=prc
@@ -93,14 +94,45 @@ set fileencoding=utf-8
 " Allow saving of files as sudo when I forget to start with vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-"filetype off
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-""" define bundles
 
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-endif
+set nocompatible               
+filetype off                   
+
+" set rtp += ~/.vim/bundle/vundle/ 
+set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#rc()
+call vundle#begin()
+ 
+" let Vundle manage Vundle
+" required! 
+Plugin 'VundleVim/Vundle.vim'
+" Define bundles via Github repos
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'a.vim'
+Plugin 'vim-scripts/ctags.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'msanders/snipmate.vim'
+Plugin 'iamcco/mathjax-support-for-mkdp'
+Plugin 'iamcco/markdown-preview.vim'
+" Plugin 'tamlok/vim-markdown'
+Plugin 'plasticboy/vim-markdown'
+" Plugin 'JamshedVesuna/vim-markdown-preview'
+
+" Plugin 'gabrielelana/vim-markdown' 
+" Plugin 'tamlok/vim-markdown'
+ " filetype on
+call vundle#end()
+filetype plugin indent on
+
+
+
+
+
+
+
 "nmap <F5> :NERDTreeToggle<cr>
 nmap <F5> :NERDTreeToggle<cr>
 " 切换头文件和源文件
@@ -138,6 +170,7 @@ endif
 
 "设置= + - * 前后自动空格
 ""设置，后面自动添加空格
+" if !exists("g:equ")
 if !exists("g:equ")
     :inoremap = <c-r>=EqualSign('=')<CR>
     :inoremap + <c-r>=EqualSign('+')<CR>
@@ -145,14 +178,15 @@ if !exists("g:equ")
     :inoremap * <c-r>=EqualSign('*')<CR>
     :inoremap / <c-r>=EqualSign('/')<CR>
     :inoremap { <c-r>=EqualSign('{')<CR>
-    :inoremap != <c-r>=EqualSign('!=')<CR>
-    :inoremap == <c-r>=EqualSign('==')<CR>
-    :inoremap && <c-r>=EqualSign('&&')<CR>
+    " :inoremap != <c-r>=EqualSign('!=')<CR>
+    " :inoremap == <c-r>=EqualSign('==')<CR>
+    " :inoremap && <c-r>=EqualSign('&&')<CR>
     " :inoremap > <c-r>=EqualSign('>')<CR>
     " :inoremap < <c-r>=EqualSign('<')<CR>
-    :inoremap << <c-r>=EqualSign('<<')<CR>
-    :inoremap >> <c-r>=EqualSign('>>')<CR>
+    " :inoremap << <c-r>=EqualSign('<<')<CR>
+    " :inoremap >> <c-r>=EqualSign('>>')<CR>
     :inoremap , ,<space>
+    " :inoremap . .<space>
     :inoremap ; ;<space>
 endif
 
@@ -184,22 +218,25 @@ function! EqualSign(char)
 endfunction
 
 " for header
-autocmd BufNewFile *.php,*.js,*.cpp,*.c,*.py,*.h  exe ":call SetComment()"
+" autocmd BufNewFile *.php,*.js,*.cpp,*.c,*.py,*.h  exe ":call SetComment()"
+" autocmd BufNewFile *.php,*.cpp,*.c,*.py,*.h  exe ":call SetComment()"
+autocmd BufNewFile *.php,*.cpp,*.c,*.h  exe ":call SetComment()"
 
 func SetComment()
     if expand("%:e")=='php'
         call setline(1,"<?php")
-    elseif expand("%:e")=='js'
-        call setline(1,"//JavaScript file")
+    " elseif expand("%:e")=='js'
+        " call setline(1,"//JavaScript file")
     elseif expand("%:e")=='cpp'
         call setline(1,"//C++ file")
     elseif expand("%:e")=='c'
         call setline(1,"//C file")
     elseif expand("%:e")=='py'
-        call setline(1,"//Python file")
+        call setline(1,"##Python file")
     endif
     if &filetype=='python'
-        call append(1,'#****************************************************')
+        " call append(1,'#****************************************************')
+        call append(1,"'''")
         call append(2,'#')
         call append(3,'# Filename: '.expand("%"))
         call append(4,'#')
@@ -208,7 +245,8 @@ func SetComment()
         call append(7,'# Create:        '.strftime("%Y-%m-%d %H:%M:%S"))
         call append(8,'# Last Modified: '.strftime("%Y-%m-%d %H:%M:%S"))
         call append(9,'#****************************************************')
-        call append(10,'')
+        " call append(10,'')
+        call append(10,"'''")
     endif
 
     if &filetype=='cpp'
@@ -262,7 +300,9 @@ function SetLastModifiedTime(lineno)
 endfunction
 
 " map the SetLastModifiedTime command automatically
-au BufWrite *.js,*php,*.py,*.java,*.cpp,*.c,*.h  call SetLastModifiedTime(-1) 
+" au BufWrite *.js,*php,*.py,*.java,*.cpp,*.c,*.h  call SetLastModifiedTime(-1) 
+" au BufWrite *php,*.py,*.java,*.cpp,*.c,*.h  call SetLastModifiedTime(-1) 
+au BufWrite *php,*.java,*.cpp,*.c,*.h  call SetLastModifiedTime(-1) 
 
 "预防手误的杀招
 nnoremap ： :
@@ -273,28 +313,20 @@ command Q q
 command WQ wq
 command W w
 
-set nocompatible               
-filetype off                   
+" for markdown preview
+" 普通模式
+" nmap <silent> <F7> <Plug>MarkdownPreview        
+" nmap <F7> <Plug>MarkdownPreview        
+" " 插入模式
+" imap <silent> <F8> <Plug>MarkdownPreview        
+" " 普通模式
+" " nmap <silent> <F9> <Plug>MarkdownPreviewStop    
+" nmap <silent> <F8> <Plug>StopMarkdownPreview
+" nmap <F8> <Plug>StopMarkdownPreview
+" " 插入模式
+" imap <silent> <F9> <Plug>StopMarkdownPreview
 
-" set rtp += ~/.vim/bundle/vundle/ 
-set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#rc()
-call vundle#begin()
- 
-" let Vundle manage Vundle
-" required! 
-" Plugin 'gmarik/vundle'
-Plugin 'VundleVim/Vundle.vim'
-" Define bundles via Github repos
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/syntastic'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'a.vim'
-Plugin 'vim-scripts/ctags.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'msanders/snipmate.vim'
 
- " filetype on
-call vundle#end()
-filetype plugin indent on
+" let g:mkdp_auto_start=1
+" let g:mkdp_auto_open=1
+let g:mkdp_command_for_global=1
