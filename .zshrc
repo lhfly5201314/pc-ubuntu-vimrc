@@ -121,3 +121,8 @@ source /home/feihong/catkin_ws/devel/setup.zsh
 export PYTHONPATH="/home/feihong/anaconda3/lib/python3.5/site-packages:$PYTHONPATH"
 export PATH="/home/feihong/anaconda3/bin:$PATH"
 export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+export GOPATH=/usr/local/go  
+export PATH=$GOPATH/bin:$PATH 
+
+export GOROOT=/usr/local/go  
+export GOPATH=$PATH:$GOROOT/bin

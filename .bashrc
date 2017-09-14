@@ -137,3 +137,9 @@ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 
 # added by Anaconda3 4.2.0 installer
 export PATH="/home/feihong/anaconda3/bin:$PATH"
+
+export GOPATH=/usr/local/go  
+export PATH=$GOPATH/bin:$PATH 
+
+export GOROOT=/usr/local/go  
+export GOPATH=$PATH:$GOROOT/bin

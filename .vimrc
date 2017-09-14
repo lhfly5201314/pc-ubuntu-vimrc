@@ -173,11 +173,11 @@ endif
 " if !exists("g:equ")
 if !exists("g:equ")
     :inoremap = <c-r>=EqualSign('=')<CR>
-    :inoremap + <c-r>=EqualSign('+')<CR>
-    :inoremap - <c-r>=EqualSign('-')<CR>
-    :inoremap * <c-r>=EqualSign('*')<CR>
-    :inoremap / <c-r>=EqualSign('/')<CR>
-    :inoremap { <c-r>=EqualSign('{')<CR>
+    " :inoremap + <c-r>=EqualSign('+')<CR>
+    " :inoremap - <c-r>=EqualSign('-')<CR>
+    " :inoremap * <c-r>=EqualSign('*')<CR>
+    " :inoremap / <c-r>=EqualSign('/')<CR>
+    " :inoremap { <c-r>=EqualSign('{')<CR>
     " :inoremap != <c-r>=EqualSign('!=')<CR>
     " :inoremap == <c-r>=EqualSign('==')<CR>
     " :inoremap && <c-r>=EqualSign('&&')<CR>
